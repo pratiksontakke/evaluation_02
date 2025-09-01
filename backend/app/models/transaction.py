@@ -1,11 +1,13 @@
 import datetime
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, func
 import enum
+from typing import Optional
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.app.db.database import Base
+from backend.app.models.user import User
 
-class TransactionType(enum.Enum):
+class TransactionType(str, enum.Enum):
     CREDIT="credit"
     DEBIT="debit"
     TRANSFER_IN="transfer_in"
@@ -17,16 +19,15 @@ class Transaction(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     transaction_type: Mapped[TransactionType]
     amount: Mapped[float]
-    description:  Mapped[str] 
+    description:  Mapped[Optional[str]] 
 
-    reference_transaction_id: Mapped[int]
-    recipient_user_id: Mapped[int] =  mapped_column(ForeignKey("users.id"))
+    reference_transaction_id: Mapped[Optional[int]] = mapped_column(ForeignKey("transactions.id"), nullable=True)
+    recipient_user_id: Mapped[Optional[int]] =  mapped_column(ForeignKey("users.id"), nullable=True)
 
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    user: Mapped["User"] = relationship(back_populates="transactions")
+    user: Mapped["User"] = relationship(back_populates="transactions", foreign_keys=[user_id])
 
-    created_at: Mapped[datetime.datetime]
-
+    created_at: Mapped[datetime.datetime] = mapped_column(server_default=func.now())
 
 
 # CREATE TABLE transactions (

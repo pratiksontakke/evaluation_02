@@ -1,6 +1,7 @@
 import datetime
 from typing import List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import func
 from backend.app.db.database import Base
 
 class User(Base):
@@ -12,11 +13,10 @@ class User(Base):
     password: Mapped[str]    
     phone_number: Mapped[str]
     balance: Mapped[float] 
-    created_at: Mapped[datetime.datetime]
-    updated_at: Mapped[datetime.datetime]
+    created_at: Mapped[datetime.datetime] = mapped_column(server_default=func.now())
+    updated_at: Mapped[datetime.datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
 
-    transactions: Mapped[List["Transaction"]] = relationship(back_populates="user", cascade="all, delete-orphan")
-
+    transactions: Mapped[List["Transaction"]] = relationship(back_populates="user", cascade="all, delete-orphan", foreign_keys='Transaction.user_id')
 
 # CREATE TABLE users (
 #     id SERIAL PRIMARY KEY,
