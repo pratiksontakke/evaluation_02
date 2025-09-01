@@ -1,7 +1,7 @@
 from sqlalchemy.orm.session import Session
 
 from backend.app.models.user import User
-from backend.app.schemas.user import UserCreate
+from backend.app.schemas.user import UserCreate, UserUpdate
 class UserService:
     def __init__(self):
         pass
@@ -24,5 +24,19 @@ class UserService:
     @staticmethod
     def get_user_by_id(user_id: int, db: Session):
         return db.query(User).filter(User.id == user_id).first()
+
+    @staticmethod
+    def update_user(user_id: int, update_user: UserUpdate, db: Session):
+        user = db.query(User).filter(User.id == user_id).first()
+        user.username = update_user.username
+        user.email = update_user.email
+        user.password = update_user.password
+        user.phone_number = update_user.phone_number
+        user.balance = update_user.balance
+
+        
+        db.commit()
+        db.refresh(user)
+        return user
 
     

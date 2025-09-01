@@ -15,3 +15,12 @@ class Transaction(BaseModel):
 
     class Config:
         from_attributes = True
+
+class TransactionCreate(BaseModel):
+    transaction_type: str
+    amount: float
+    description: str
+    reference_transaction_id: int
+    recipient_user_id: int
+    user_id: int
+    user: "User"

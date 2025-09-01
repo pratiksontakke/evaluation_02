@@ -24,3 +24,10 @@ class UserCreate(BaseModel):
     phone_number: str
     balance: float = 0
     transactions: List["Transaction"]
+
+class UserUpdate(BaseModel):
+    username: str
+    email: str
+    password: str
+    phone_number: str
+    balance: float = 0
