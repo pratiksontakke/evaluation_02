@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse, RedirectResponse
 
 from backend.app.db.database import create_db_and_tables
+from backend.app.routers.transaction import transaction_router
+from backend.app.routers.user import user_router
 
 app = FastAPI()
 
@@ -17,3 +19,5 @@ def home():
 def health():
     return JSONResponse(status_code=200, content={"status":"Healthy"})
 
+app.include_router(user_router, prefix="/user")
+app.include_router(transaction_router, prefix="/transaction")

@@ -3,3 +3,4 @@ sqlalchemy
 pydentic
 python-dotenv
 uvicorn
+psycopg2-binary
