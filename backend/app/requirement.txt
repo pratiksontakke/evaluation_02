@@ -1,0 +1,4 @@
+fastapi
+sqlalchemy
+pydentic
+python-dotenv
