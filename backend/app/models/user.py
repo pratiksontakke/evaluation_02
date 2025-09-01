@@ -11,7 +11,7 @@ class User(Base):
     email: Mapped[str]
     password: Mapped[str]    
     phone_number: Mapped[str]
-    balance: Mapped[float]
+    balance: Mapped[float] 
     created_at: Mapped[datetime.datetime]
     updated_at: Mapped[datetime.datetime]
 
